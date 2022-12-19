@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import toast, { Toaster } from "react-hot-toast";
+import Todo from "./components/Todo";
+import TodoList from "./context/TodoContext";
+import Modal from "./components/Modal";
 
 function App() {
+  const notify = () => toast("here is your toast");
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TodoList>
+      <Modal showModal={showModal} setShowModal={setShowModal} />
+      <div className="max-w-2xl py-3 mx-auto">
+        <h2 className="text-xl font-bold text-center">Todo App</h2>
+        <div className="flex justify-between">
+          <div>
+            <button
+              className="bg-indigo-500 p-2 text-white"
+              onClick={() => setShowModal(true)}
+            >
+              Add Task
+            </button>
+          </div>
+          <div>
+            <select className="border-2">
+              <option value={1}>1</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <Todo />
+        </div>
+        <Toaster />
+      </div>
+    </TodoList>
   );
 }
 
