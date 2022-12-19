@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
 function TodoList() {
-  const { list, setList, change, setChange } = useTodoContext();
+  const { list, setList, change, setChange, sort } = useTodoContext();
   const [currentEditIndex, setCurrentEditIndex] = useState();
   const [editvalue, setEditValue] = useState("");
 
@@ -24,7 +24,7 @@ function TodoList() {
 
   const handleCompleteTask = (index) => {
     const todo_list = list;
-    todo_list[index].status = "done";
+    todo_list[index].status = "Done";
     setList(todo_list);
     setChange(!change);
     toast.success("Task Edited successfully!");
@@ -56,17 +56,24 @@ function TodoList() {
     setEditValue(list[index].taskname);
   };
 
-  const listItems = list.map((item, index) => (
+  const SortedList = list.filter((list) => {
+    if (sort === "") {
+      return true;
+    }
+    return list.status === sort;
+  });
+
+  const listItems = SortedList.map((item, index) => (
     <li key={index} className="bg-gray-300 px-3 py-2 mt-2">
       <div className="flex justify-between">
         <div>
           <input
             type="checkbox"
             name="chktask"
-            checked={item.status == "done" ? true : false}
+            checked={item.status == "Done" ? true : false}
             onClick={() => handleCompleteTask(index)}
           />
-          <span className={item.status == "done" ? "line-through" : ""}>
+          <span className={item.status == "Done" ? "line-through" : ""}>
             {item.taskname}{" "}
           </span>
           <br /> <span className="text-sm">create at : {item.task_added}</span>

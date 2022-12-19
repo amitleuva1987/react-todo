@@ -10,6 +10,7 @@ function TodoList({ children }) {
   const [list, setList] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
   const [change, setChange] = useState(true);
+  const [sort, setSort] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("todoList") !== null) {
@@ -29,7 +30,9 @@ function TodoList({ children }) {
   }, [list, change]);
 
   return (
-    <TodoContext.Provider value={{ list, setList, change, setChange }}>
+    <TodoContext.Provider
+      value={{ list, setList, change, setChange, sort, setSort }}
+    >
       {children}
     </TodoContext.Provider>
   );
