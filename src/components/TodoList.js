@@ -64,7 +64,7 @@ function TodoList() {
   });
 
   const listItems = SortedList.map((item, index) => (
-    <li key={index} className="bg-gray-300 px-3 py-2 mt-2">
+    <li key={index} className="bg-gray-200 px-3 py-2 mt-2">
       <div className="flex justify-between">
         <div>
           <input
@@ -74,7 +74,12 @@ function TodoList() {
             checked={item.status == "Done" ? true : false}
             onClick={() => handleCompleteTask(index)}
           />
-          <span className={item.status == "Done" ? "line-through" : ""}>
+          <span
+            className={
+              "uppercase text-gray-600 ml-2 " +
+              (item.status == "Done" ? "line-through" : "")
+            }
+          >
             {item.taskname}{" "}
           </span>
           <br /> <span className="text-sm">create at : {item.task_added}</span>

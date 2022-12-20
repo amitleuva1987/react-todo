@@ -32,25 +32,7 @@ function Todo() {
     setTask({ taskname: "", task_added: "", status: "" });
   };
 
-  return (
-    <>
-      <div className="flex justify-center">
-        <input
-          type="text"
-          name="taskname"
-          className="border-2 p-2"
-          onChange={handleChange}
-          value={task.taskname}
-        />
-      </div>
-      <div className="flex justify-center mt-5">
-        <button className="p-3 bg-indigo-500 text-white" onClick={handleSubmit}>
-          Create
-        </button>
-      </div>
-      <TodoList />
-    </>
-  );
+  return <TodoList />;
 }
 
 export default Todo;
