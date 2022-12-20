@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useTodoContext } from "../context/TodoContext";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 function TodoList() {
   const { list, setList, change, setChange, sort } = useTodoContext();
@@ -84,12 +86,18 @@ function TodoList() {
           </span>
           <br /> <span className="text-sm">create at : {item.task_added}</span>
         </div>
-        <div className="space-x-2">
-          <span className="cursor-pointer" onClick={() => enableEdit(index)}>
-            Edit
+        <div className="space-x-2 mt-3">
+          <span
+            className="bg-gray-400 p-2 cursor-pointer"
+            onClick={() => enableEdit(index)}
+          >
+            <FontAwesomeIcon className="text-white text-sm" icon={faPencil} />
           </span>
-          <span className="cursor-pointer" onClick={() => removeTask(item)}>
-            Delete
+          <span
+            className="bg-gray-400 p-2 cursor-pointer"
+            onClick={() => removeTask(item)}
+          >
+            <FontAwesomeIcon icon={faTrash} className="text-white text-sm" />
           </span>
         </div>
       </div>
@@ -97,7 +105,7 @@ function TodoList() {
         <input
           type="text"
           onChange={(e) => handleEditTask(e)}
-          className={`border-2 border-blue-300 p-2 ${
+          className={`form-input ${
             currentEditIndex == index ? "block" : "hidden"
           }`}
           value={editvalue}
