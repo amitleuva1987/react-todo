@@ -70,6 +70,7 @@ function TodoList() {
           <input
             type="checkbox"
             name="chktask"
+            className="form-checkbox"
             checked={item.status == "Done" ? true : false}
             onClick={() => handleCompleteTask(index)}
           />
