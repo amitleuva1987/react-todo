@@ -12,7 +12,12 @@ function Filter() {
 
   return (
     <>
-      <Modal showModal={showModal} setShowModal={setShowModal} />
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        parentTask=""
+        listIndex=""
+      />
       <div className="flex justify-between">
         <div>
           <button

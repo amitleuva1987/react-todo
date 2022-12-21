@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTodoContext } from "../context/TodoContext";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import Modal from "./Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
@@ -9,6 +10,9 @@ function TodoList() {
   const { list, setList, change, setChange, sort } = useTodoContext();
   const [currentEditIndex, setCurrentEditIndex] = useState();
   const [editvalue, setEditValue] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [task, setTask] = useState([]);
+  const [listindex, setListIndex] = useState("");
 
   const handleEdit = (index) => {
     if (editvalue === "") {
@@ -54,8 +58,17 @@ function TodoList() {
   };
 
   const enableEdit = (index) => {
-    setCurrentEditIndex(index);
-    setEditValue(list[index].taskname);
+    const tempTask = {
+      taskname: list[index].taskname,
+      status: list[index].status,
+      task_added: list[index].task_added,
+    };
+    setTask(tempTask);
+    setListIndex(index);
+    setShowModal(true);
+
+    // setCurrentEditIndex(index);
+    // setEditValue(list[index].taskname);
   };
 
   const SortedList = list.filter((list) => {
@@ -84,7 +97,7 @@ function TodoList() {
           >
             {item.taskname}{" "}
           </span>
-          <br /> <span className="text-sm">create at : {item.task_added}</span>
+          <br /> <span className="text-sm">Created at : {item.task_added}</span>
         </div>
         <div className="space-x-2 mt-3">
           <span
@@ -122,7 +135,17 @@ function TodoList() {
     </li>
   ));
 
-  return <ul>{listItems}</ul>;
+  return (
+    <>
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        parentTask={task}
+        listIndex={listindex}
+      />
+      <ul>{listItems}</ul>
+    </>
+  );
 }
 
 export default TodoList;

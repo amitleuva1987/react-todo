@@ -1,15 +1,34 @@
 import { useEffect, useState } from "react";
 import { useTodoContext } from "../context/TodoContext";
+import toast from "react-hot-toast";
 
-function Modal({ showModal, setShowModal }) {
-  const { list, setList } = useTodoContext();
+function Modal({ showModal, setShowModal, parentTask, listIndex }) {
+  const { list, setList, change, setChange } = useTodoContext();
   const [task, setTask] = useState([]);
+  const [enableedit, setEnableEdit] = useState(false);
 
   const handleChange = (event) => {
     setTask({
       ...task,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleEdit = () => {
+    if (task.taskname === "") {
+      alert("please enter task name");
+      return false;
+    }
+    if (task.status === "") {
+      alert("please enter task name");
+      return false;
+    }
+    const todo_list = list;
+    todo_list[listIndex] = task;
+    setList(todo_list);
+    setChange(!change);
+    toast.success("Task Edited successfully!");
+    setShowModal(false);
   };
 
   const handleSubmit = () => {
@@ -21,6 +40,7 @@ function Modal({ showModal, setShowModal }) {
 
     const taskDetails = task;
     taskDetails.task_added = date + " " + time;
+
     if (task.taskname === "") {
       alert("please enter task name");
       return false;
@@ -37,8 +57,11 @@ function Modal({ showModal, setShowModal }) {
   };
 
   useEffect(() => {
-    console.log(task);
-  }, [task]);
+    setTask(parentTask);
+    if (parentTask.taskname && parentTask.taskname !== "") {
+      setEnableEdit(true);
+    }
+  }, [parentTask]);
 
   return (
     <>
@@ -50,15 +73,15 @@ function Modal({ showModal, setShowModal }) {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-center justify-center p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-xl font-semibold uppercase text-center">
+                  <h3 className="text-xl font-semibold uppercase ">
                     Create a Task
                   </h3>
                   <button
-                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => setShowModal(false)}
                   >
-                    <span className="bg-transparent text-black-400 opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                      ×
+                    <span className="bg-transparent text-black-400 opacity-6 pb-1 text-2xl block outline-none focus:outline-none">
+                      x
                     </span>
                   </button>
                 </div>
@@ -70,6 +93,7 @@ function Modal({ showModal, setShowModal }) {
                     name="taskname"
                     placeholder="Task name"
                     onChange={(e) => handleChange(e)}
+                    value={task.taskname}
                   />
                   <select
                     name="status"
@@ -90,13 +114,23 @@ function Modal({ showModal, setShowModal }) {
                   >
                     Close
                   </button>
-                  <button
-                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => handleSubmit()}
-                  >
-                    ADD
-                  </button>
+                  {enableedit ? (
+                    <button
+                      className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => handleEdit()}
+                    >
+                      SAVE
+                    </button>
+                  ) : (
+                    <button
+                      className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => handleSubmit()}
+                    >
+                      ADD
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
