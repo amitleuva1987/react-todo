@@ -74,7 +74,7 @@ function Modal({ showModal, setShowModal, parentTask, listIndex }) {
                 {/*header*/}
                 <div className="flex items-center justify-center p-5 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-xl font-semibold uppercase ">
-                    Create a Task
+                    {enableedit ? "Edit Task" : "Create a Task"}
                   </h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -101,8 +101,18 @@ function Modal({ showModal, setShowModal, parentTask, listIndex }) {
                     onChange={(e) => handleChange(e)}
                   >
                     <option value="">Select Status</option>
-                    <option value="Done">Done</option>
-                    <option value="Pending">Pending</option>
+                    <option
+                      value="Done"
+                      selected={task.status === "Done" ? true : false}
+                    >
+                      Done
+                    </option>
+                    <option
+                      value="Pending"
+                      selected={task.status !== "Done" ? true : false}
+                    >
+                      Pending
+                    </option>
                   </select>
                 </div>
                 {/*footer*/}
