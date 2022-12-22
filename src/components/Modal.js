@@ -47,12 +47,12 @@ function Modal({ showModal, setShowModal, parentTask, listIndex }) {
     }
 
     if (task.status === "") {
-      alert("please enter task name");
+      alert("please enter task status");
       return false;
     }
 
     setList([...list, taskDetails]);
-    setTask({ taskname: "", task_added: "", status: "" });
+    setTask({ taskname: "", task_added: "", status: "Pending" });
     setShowModal(false);
   };
 
